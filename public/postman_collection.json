@@ -1,0 +1,30 @@
+{
+  "info": {
+    "name": "Service Marketplace API",
+    "description": "Internship Task Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        { "name": "Register", "request": { "method": "POST", "url": {"raw": "http://localhost:3000/api/auth/register", "host": ["http://localhost:3000"]}, "body": { "mode": "raw", "raw": "{\"name\":\"Test User\",\"email\":\"test@test.com\",\"password\":\"123456\",\"role\":\"user\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Login", "request": { "method": "POST", "url": {"raw": "http://localhost:3000/api/auth/login", "host": ["http://localhost:3000"]}, "body": { "mode": "raw", "raw": "{\"email\":\"test@test.com\",\"password\":\"123456\"}", "options": { "raw": { "language": "json" } } } } },
+        { "name": "Profile", "request": { "method": "GET", "url": {"raw": "http://localhost:3000/api/auth/profile", "host": ["http://localhost:3000"]} } }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        { "name": "Get All Services", "request": { "method": "GET", "url": {"raw": "http://localhost:3000/api/services?page=1&limit=10", "host": ["http://localhost:3000"]} } },
+        { "name": "Create Service", "request": { "method": "POST", "url": {"raw": "http://localhost:3000/api/services", "host": ["http://localhost:3000"]}, "body": { "mode": "raw", "raw": "{\"title\":\"Plumbing\",\"price\":50,\"category\":\"Maintenance\"}", "options": { "raw": { "language": "json" } } } } }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        { "name": "Create Booking", "request": { "method": "POST", "url": {"raw": "http://localhost:3000/api/bookings", "host": ["http://localhost:3000"]}, "body": { "mode": "raw", "raw": "{\"service_id\":1,\"booking_date\":\"2026-12-01T10:00:00Z\"}", "options": { "raw": { "language": "json" } } } } }
+      ]
+    }
+  ]
+}
