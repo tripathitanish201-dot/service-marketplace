@@ -1,4 +1,5 @@
 const bookingService = require('../services/bookingService');
+const auditLogsModel = require('../models/auditLogsModel');
 
 class BookingController {
   async createBooking(req, res) {
@@ -11,6 +12,7 @@ class BookingController {
       }
 
       const booking = await bookingService.createBooking(userId, { service_id, booking_date });
+      await auditLogsModel.logAction(userId, 'CREATED_BOOKING', booking.id, 'BOOKING', `User booked service ${service_id}`);
       res.status(201).json({ message: 'Booking created successfully', booking });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -39,7 +41,7 @@ class BookingController {
       const booking = await bookingService.getBooking(req.params.id, req.user.id, req.user.role);
       res.status(200).json({ booking });
     } catch (error) {
-       res.status(404).json({ message: error.message });
+      res.status(404).json({ message: error.message });
     }
   }
 
@@ -47,13 +49,14 @@ class BookingController {
     try {
       const { status } = req.body;
       if (!status) {
-         return res.status(400).json({ message: 'status is required' });
+        return res.status(400).json({ message: 'status is required' });
       }
 
       const booking = await bookingService.updateBookingStatus(req.params.id, req.user.id, req.user.role, status);
+      await auditLogsModel.logAction(req.user.id, 'UPDATED_BOOKING_STATUS', req.params.id, 'BOOKING', `Booking ${req.params.id} marked as ${status}`);
       res.status(200).json({ message: 'Booking status updated', booking });
     } catch (error) {
-       res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
   }
 }

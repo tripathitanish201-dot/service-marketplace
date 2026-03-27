@@ -2,7 +2,7 @@ const db = require('../../config/db');
 
 class ServiceModel {
   static async create(service) {
-    const { provider_id, title, description, price, category, image } = service;
+    const { provider_id, title, description = null, price, category, image = null } = service;
     const [result] = await db.execute(
       'INSERT INTO services (provider_id, title, description, price, category, image) VALUES (?, ?, ?, ?, ?, ?)',
       [provider_id, title, description, price, category, image]
@@ -56,7 +56,7 @@ class ServiceModel {
   }
 
   static async update(id, service) {
-    const { title, description, price, category, image } = service;
+    const { title, description = null, price, category, image = null } = service;
     const [result] = await db.execute(
       'UPDATE services SET title = ?, description = ?, price = ?, category = ?, image = ? WHERE id = ?',
       [title, description, price, category, image, id]

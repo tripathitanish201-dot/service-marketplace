@@ -8,6 +8,10 @@ const router = express.Router();
 router.use(authenticate);
 router.use(authorizeRoles('admin'));
 
+router.get('/users', adminController.getUsers);
+router.get('/providers', adminController.getProviders);
+router.get('/services', adminController.getServices);
+router.get('/logs', adminController.getLogs);
 router.patch('/users/:id/block', adminController.blockUser);
 router.patch('/providers/:id/approve', adminController.approveProvider);
 router.delete('/services/:id', serviceController.deleteService);

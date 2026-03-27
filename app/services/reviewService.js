@@ -26,7 +26,7 @@ class ReviewService {
   async getProviderReviews(providerId) {
     const reviews = await reviewRepository.getReviewsForProvider(providerId);
     const stats = await reviewRepository.getProviderRatingStats(providerId);
-    
+
     return {
       reviews,
       averageRating: stats.average_rating ? parseFloat(stats.average_rating).toFixed(1) : 0,

@@ -12,6 +12,7 @@ const profileSchema = Joi.object({
 const router = express.Router();
 
 router.post('/profile', authenticate, authorizeRoles('provider', 'admin'), validate(profileSchema), providerController.createProfile);
-router.get('/profile/:userId?', authenticate, providerController.getProfile);
+router.get('/profile', authenticate, providerController.getProfile);
+router.get('/profile/:userId', authenticate, providerController.getProfile);
 
 module.exports = router;

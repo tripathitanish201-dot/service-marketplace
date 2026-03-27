@@ -6,13 +6,13 @@ class ProviderService {
     if (existing) {
       throw Object.assign(new Error('Provider profile already exists'), { status: 400 });
     }
-    
+
     const providerData = {
       user_id: userId,
       bio: profileData.bio,
       experience: profileData.experience
     };
-    
+
     return await providerRepository.create(providerData);
   }
 

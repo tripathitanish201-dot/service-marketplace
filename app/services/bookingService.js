@@ -4,7 +4,7 @@ const serviceRepository = require('../repositories/serviceRepository');
 class BookingService {
   async createBooking(userId, bookingData) {
     const { service_id, booking_date } = bookingData;
-    
+
     // Ensure service exists and get provider
     const service = await serviceRepository.getServiceById(service_id);
     if (!service) {
@@ -29,10 +29,10 @@ class BookingService {
 
     // Access control
     if (userRole === 'user' && booking.user_id !== userId) {
-        throw new Error('Unauthorized');
+      throw new Error('Unauthorized');
     }
     if (userRole === 'provider' && booking.provider_id !== userId) {
-        throw new Error('Unauthorized');
+      throw new Error('Unauthorized');
     }
 
     return booking;
@@ -61,8 +61,8 @@ class BookingService {
     if (userRole === 'user') {
       if (booking.user_id !== userId) throw new Error('Unauthorized');
       if (newStatus !== 'cancelled') throw new Error('Users can only cancel bookings');
-    } 
-    
+    }
+
     if (userRole === 'provider') {
       if (booking.provider_id !== userId) throw new Error('Unauthorized');
     }

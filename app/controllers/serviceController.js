@@ -1,4 +1,5 @@
 const serviceService = require('../services/serviceService');
+const auditLogsModel = require('../models/auditLogsModel');
 
 class ServiceController {
   async createService(req, res) {
@@ -11,6 +12,9 @@ class ServiceController {
       }
 
       const service = await serviceService.createService(providerId, { title, description, price, category, image });
+      
+      await auditLogsModel.logAction(providerId, 'CREATED_SERVICE', service.id, 'SERVICE', `Provider created new service: ${title}`);
+      
       res.status(201).json({ message: 'Service created successfully', service });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -61,7 +65,12 @@ class ServiceController {
   async deleteService(req, res) {
     try {
       const providerId = req.user.id;
+      const role = req.user.role;
       await serviceService.deleteService(req.params.id, providerId);
+      
+      const actionData = role === 'admin' ? 'ADMIN_DELETED_SERVICE' : 'PROVIDER_DELETED_SERVICE';
+      await auditLogsModel.logAction(providerId, actionData, req.params.id, 'SERVICE', `Service ${req.params.id} permanently dropped`);
+
       res.status(200).json({ message: 'Service deleted successfully' });
     } catch (error) {
       res.status(400).json({ message: error.message });

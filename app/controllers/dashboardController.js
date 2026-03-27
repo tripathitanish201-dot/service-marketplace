@@ -4,9 +4,9 @@ class DashboardController {
   async getAdminStats(req, res) {
     try {
       if (req.user.role !== 'admin') {
-         return res.status(403).json({ message: 'Access forbidden: Admins only' });
+        return res.status(403).json({ message: 'Access forbidden: Admins only' });
       }
-      
+
       const stats = await dashboardService.getAdminStats();
       res.status(200).json(stats);
     } catch (error) {
@@ -17,7 +17,7 @@ class DashboardController {
   async getProviderEarnings(req, res) {
     try {
       if (req.user.role !== 'provider' && req.user.role !== 'admin') {
-         return res.status(403).json({ message: 'Access forbidden: Providers only' });
+        return res.status(403).json({ message: 'Access forbidden: Providers only' });
       }
 
       const earnings = await dashboardService.getProviderEarnings(req.user.id);

@@ -20,7 +20,7 @@ class UserService {
   }
 
   async loginUser(email, password) {
-    const user = await userRepository.findByEmail(email);
+    const user = await userRepository.getUserByEmail(email);
     if (!user) {
       throw Object.assign(new Error('Invalid email or password'), { status: 401 });
     }
